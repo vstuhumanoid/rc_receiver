@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5.1)
 project(rc_receiver)
 
-cmake_policy(SET CMP0071 NEW)
+#cmake_policy(SET CMP0071 NEW)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)

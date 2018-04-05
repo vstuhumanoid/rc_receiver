@@ -27,6 +27,7 @@ private:
     ros::NodeHandle node;
     ros::Publisher publisher;
     rc_receiver::PultData message;
+    int packetsCount = 0;
 
     void initRos();
     void publishMessage(QList<short> packet);
