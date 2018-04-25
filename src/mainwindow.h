@@ -6,6 +6,7 @@
 #include "pultreceiver.h"
 #include "ros/ros.h"
 #include <rc_receiver/PultData.h>
+#include <robot_controllers/MotionParams.h>
 
 namespace Ui
 {
@@ -24,9 +25,11 @@ private:
     Ui::MainWindow *ui;
     PultReceiver pult;
 
-    ros::NodeHandle node;
-    ros::Publisher publisher;
+    ros::NodeHandle nh_;
+    ros::Publisher data_publisher_;
     rc_receiver::PultData message;
+    ros::Publisher params_publisher_;
+    robot_controllers::MotionParams motionParams_;
 
     void initRos();
     void publishMessage(QList<short> packet);

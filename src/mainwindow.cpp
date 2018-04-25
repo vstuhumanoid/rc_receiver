@@ -20,9 +20,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::initRos()
 {
-    publisher = node.advertise<rc_receiver::PultData>("pult", 1000);
+    data_publisher_ = nh_.advertise<rc_receiver::PultData>("pult", 1000);
     for(int i = 0; i < 14; i++)
         message.channels.push_back(0);
+
+    params_publisher_ = nh_.advertise<robot_controllers::MotionParams>("/frund/motion_params", 1000);
 }
 
 void MainWindow::on_refreshComsButton_clicked()
@@ -71,5 +73,9 @@ void MainWindow::publishMessage(QList<short> packet)
     for(int i = 0; i < packet.size(); i++)
         message.channels[i] = packet[i] - 1000;
 
-    publisher.publish(message);
+    data_publisher_.publish(message);
+
+    //TODO: публюиковать в топик фрунда
+    //motionParams_.velocity_x = (double)(packet[2] - 1000) / 100.0;
+
 }
