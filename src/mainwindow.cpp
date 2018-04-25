@@ -20,7 +20,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::initRos()
 {
-    data_publisher_ = nh_.advertise<rc_receiver::PultData>("pult", 1000);
+    data_publisher_ = nh_.advertise<rc_receiver::PultData>("rc_receiver/pult_data", 1000);
     for(int i = 0; i < 14; i++)
         message.channels.push_back(0);
 
@@ -58,24 +58,28 @@ void MainWindow::pultDataReceived(QByteArray data)
 
 void MainWindow::pultPacketReceived(QList<short> packet)
 {
-    QString pultData;
-    for(int i = 0; i < packet.size(); i++)
-        pultData += QString::number(packet[i]) + " ";
+	if(++packets_count_ == 100)
+	{
+	    QString pultData;
+	    for(int i = 0; i < packet.size(); i++)
+	        pultData += QString::number(packet[i]) + " ";
 
-    ui->pultDataEdit->append("\n" + pultData);
+	    ui->pultDataEdit->setText(pultData);
 
-    publishMessage(packet);
+	    publishMessage(packet);
+
+	    packets_count_ = 0;
+	}
 
 }
 
 void MainWindow::publishMessage(QList<short> packet)
 {
-    for(int i = 0; i < packet.size(); i++)
-        message.channels[i] = packet[i] - 1000;
+	for(int i = 0; i < packet.size(); i++)
+    	message.channels[i] = packet[i] - 1500;
 
     data_publisher_.publish(message);
 
-    //TODO: публюиковать в топик фрунда
+    //TODO: публиковать в топик фрунда
     //motionParams_.velocity_x = (double)(packet[2] - 1000) / 100.0;
-
 }

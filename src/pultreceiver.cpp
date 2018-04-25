@@ -68,7 +68,7 @@ bool PultReceiver::OpenPort(QString portName)
 
 void PultReceiver::ClosePort()
 {
-    //port.close();
+    port.close();
     portClosed();
 }
 

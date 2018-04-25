@@ -31,6 +31,8 @@ private:
     ros::Publisher params_publisher_;
     robot_controllers::MotionParams motionParams_;
 
+    int packets_count_ = 0;
+
     void initRos();
     void publishMessage(QList<short> packet);
 
