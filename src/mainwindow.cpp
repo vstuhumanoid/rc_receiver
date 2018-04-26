@@ -80,6 +80,12 @@ void MainWindow::publishMessage(QList<short> packet)
 
     data_publisher_.publish(message);
 
-    //TODO: публиковать в топик фрунда
-    //motionParams_.velocity_x = (double)(packet[2] - 1000) / 100.0;
+    //TODO: сделать правильное задание параметров (масштабирующие коэффициенты)
+    motionParams_.velocity_x = (double)(packet[3] - 1500) / 500.0 * 0.03;
+    motionParams_.velocity_y = (double)(packet[2] - 1500) / 500.0 * 0.03;
+    motionParams_.angular_velocity = (double)(packet[1] - 1500) / 500.0 * 0.02;
+    motionParams_.com_height = (double)(packet[0] - 1500) / 500.0 * 0.1 + 0.5;
+    motionParams_.step_height = (double)(packet[4] - 1500) / 500.0 * 0.1 + 0.1;
+    motionParams_.step_length = (double)(packet[5] - 1500) / 500.0 * 0.2 + 0.3;
+    params_publisher_.publish(motionParams_);
 }
